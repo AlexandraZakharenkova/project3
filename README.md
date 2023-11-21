@@ -1,49 +1,52 @@
-# Изменение шрифта, размера шрифта и межстрочного интервала в документе
+# Программа для модификации документов docx
 
-Этот скрипт позволяет изменить шрифт, размер шрифта и межстрочный интервал в документе формата docx. Он применяется к нескольким документам одновременно.
+Данная программа позволяет модифицировать документы в формате docx, изменяя шрифт, размер шрифта и межстрочный интервал для каждого параграфа.
 
-## Использование
+## Установка и использование
 
-1. Установите необходимые зависимости с помощью следующей команды:
+1. Установите библиотеку `python-docx`, если она ещё не установлена:
 
-pip install python-docx
+   pip install python-docx
 
+2. Создайте файл `main.py` со следующим содержимым:
 
-2. Скопируйте скрипт в свой проект.
+    from docx_functions import modify_docx
 
-3. Укажите пути к документам, которые необходимо изменить, в переменной `documents`. Документы должны быть в формате docx.
+    # Применяем функцию к каждому документу
+    documents = ["doc1.docx", "doc2.docx", "doc3.docx", "doc4.docx", "doc5.docx"]
 
-4. Запустите скрипт.
+    for doc_path in documents:
+        modify_docx(doc_path)
 
-from docx import Document
-from docx.shared import Pt
+3. Создайте файл `docx_functions.py` со следующим содержимым:
 
-def modify_docx(file_path):
-    # Открываем документ
-    doc = Document(file_path)
+    from docx import Document
+    from docx.shared import Pt
 
-    # Изменяем шрифт, размер шрифта и межстрочный интервал для каждого параграфа
-    for para in doc.paragraphs:
-        for run in para.runs:
-            run.font.name = 'Times New Roman'
-            run.font.size = Pt(14)
-        para.paragraph_format.line_spacing = 1.5
+    def modify_docx(file_path):
+        # Открываем документ
+        doc = Document(file_path)
 
-    # Сохраняем изменения
-    doc.save(file_path)
+        # Изменяем шрифт, размер шрифта и межстрочный интервал для каждого параграфа
+        for para in doc.paragraphs:
+            for run in para.runs:
+                run.font.name = 'Times New Roman'
+                run.font.size = Pt(14)
+            para.paragraph_format.line_spacing = 1.5
 
-# Применяем функцию к каждому документу
-documents = ["doc1.docx", "doc2.docx", "doc3.docx", "doc4.docx", "doc5.docx"]
+        # Сохраняем изменения
+        doc.save(file_path)
 
-for doc_path in documents:
-    modify_docx(doc_path)
+4. Запустите файл `main.py`, чтобы применить функцию `modify_docx` к каждому документу из списка `documents`.
 
+   python main.py
 
-## Зависимости
+   Документы будут изменены в соответствии с заданными параметрами.
 
-Для работы скрипта необходимо установить следующую зависимость:
-- python-docx: `pip install python-docx`
+## Примечание
 
-## Лицензия
+- Для работы программы требуется библиотека `python-docx`. Убедитесь, что она установлена перед запуском программы.
 
-Этот проект распространяется под лицензией [MIT License](LICENSE).
+- Документы, которые требуется модифицировать, должны находиться в одной директории с файлом `main.py`.
+
+- Перед запуском программы убедитесь, что у вас есть права на изменение указанных документов.
