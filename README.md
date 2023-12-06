@@ -1,52 +1,70 @@
-# Изменение шрифта, размера шрифта и межстрочного интервала в документе
+# Изменение параметров шрифта и межстрочного интервала в документах Word
 
-Данная программа позволяет модифицировать документы в формате docx, изменяя шрифт, размер шрифта и межстрочный интервал для каждого параграфа.
+Данный код представляет собой Python скрипт, который позволяет изменять параметры шрифта и межстрочного интервала в документах формата docx. 
 
-## Установка и использование
+## Установка
 
-1. Установите библиотеку `python-docx`, если она ещё не установлена:
+Для работы скрипта необходимо установить несколько зависимостей. Выполните следующие команды:
 
-   pip install python-docx
+```bash
+pip install python-docx
+```
 
-2. Создайте файл `main.py` со следующим содержимым:
+## Использование
 
-    from docx_functions import modify_docx
+1. Импортируйте необходимые библиотеки и модули:
 
-    # Применяем функцию к каждому документу
-    documents = ["doc1.docx", "doc2.docx", "doc3.docx", "doc4.docx", "doc5.docx"]
+```python
+import os
+from docx import Document
+from docx_functions import change_font_and_spacing
+```
 
-    for doc_path in documents:
-        modify_docx(doc_path)
+2. Укажите путь к папке с файлами, которые нужно изменить:
 
-3. Создайте файл `docx_functions.py` со следующим содержимым:
+```python
+folder = 'путь_к_папке_с_файлами'
+```
 
-    from docx import Document
-    from docx.shared import Pt
+3. Установите необходимые параметры для изменения:
 
-    def modify_docx(file_path):
-        # Открываем документ
-        doc = Document(file_path)
+```python
+font_name = 'times new roman'
+font_size = 14
+line_spacing = 1.5
+```
 
-        # Изменяем шрифт, размер шрифта и межстрочный интервал для каждого параграфа
-        for para in doc.paragraphs:
-            for run in para.runs:
-                run.font.name = 'Times New Roman'
-                run.font.size = Pt(14)
-            para.paragraph_format.line_spacing = 1.5
+4. Проходимся по всем файлам в указанной папке и вызываем функцию для изменения параметров шрифта и межстрочного интервала:
 
-        # Сохраняем изменения
-        doc.save(file_path)
+```python
+for filename in os.listdir(folder):
+    if filename.endswith('.docx'):
+        file_path = os.path.join(folder, filename)
+        change_font_and_spacing(file_path, font_name, font_size, line_spacing)
+        print(f'документ "{filename}" успешно изменен.')
+```
 
-4. Запустите файл `main.py`, чтобы применить функцию `modify_docx` к каждому документу из списка `documents`.
+## Функция `change_font_and_spacing`
 
-   python main.py
+Функция `change_font_and_spacing` определена во втором файле `docx_functions.py` и выполняет поставленные действия. Для использования данной функции, импортируйте необходимые модули:
 
-   Документы будут изменены в соответствии с заданными параметрами.
+```python
+from docx import Document
+```
 
-## Примечание
+Пример вызова функции:
 
-- Для работы программы требуется библиотека `python-docx`. Убедитесь, что она установлена перед запуском программы.
+```python
+doc = Document('путь_к_файлу.docx')
+change_font_and_spacing(doc, font_name, font_size, line_spacing)
+doc.save('путь_к_файлу.docx')
+```
 
-- Документы, которые требуется модифицировать, должны находиться в одной директории с файлом `main.py`.
+Функция принимает следующие параметры:
 
-- Перед запуском программы убедитесь, что у вас есть права на изменение указанных документов.
+- `file_path`: путь к файлу docx
+- `font_name`: имя шрифта
+- `font_size`: размер шрифта
+- `line_spacing`: межстрочный интервал
+
+Функция открывает файл, изменяет параметры шрифта и межстрочного интервала для каждого параграфа и сохраняет изменения в исходном файле.
