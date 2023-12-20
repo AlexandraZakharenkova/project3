@@ -6,7 +6,7 @@ from docx import Document
 from docx_functions import change_font_and_spacing
 
 # Указываем папку с файлами
-folder = 'files'
+folder = 'folder'
 
 # Указываем параметры для изменения
 font_name = 'times new roman'
